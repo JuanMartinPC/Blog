@@ -12,9 +12,9 @@ class Users {
     }
 
     static Register = async (user) => {
-        const {username, email, pass} = user;
-        const results = await connection.promise().query('insert into users (username, email, pass) values (?, ?, ?)',
-        [username, email, pass],
+        const {username, email, pass, image} = user;
+        const results = await connection.promise().query('insert into users (username, email, pass, image) values (?, ?, ?, ?)',
+        [username, email, pass, image],
         (err, results) => {
             if (err) return res.json({'mensaje': err})
             /* console.log(results);
@@ -23,9 +23,14 @@ class Users {
         return results.length ? results : null
     }
 
-    static async getAll(){
-        const [results, _info] = await connection.promise().query('select * from users')
-        return results.length ? results : null
+    static async getAll(id){
+        if (!id){
+            const [results, _info] = await connection.promise().query('select * from users')
+            return results.length ? results : null
+        } else {
+            const [results, _info] = await connection.promise().query('select * from users where id = ?', [id])
+            return results.length ? results : null
+        }
     }
 }
 

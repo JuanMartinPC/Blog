@@ -5,6 +5,7 @@ const { tokenSign } = require('../utils/handleJWT');
 class UsersController {
     static Login = async (req, res) => {
         const {email, pass} = req.body;
+        console.log(email);
         const isUser = await Users.Login(email)
         if (!isUser) return res.status(401).json({'mensaje': 'La dirección de correo ingresada es incorrecta.'})
         const checkPass = await compare(pass, isUser[0].pass)
@@ -22,10 +23,10 @@ class UsersController {
     }
 
     static Register = async (req, res) => {
-        const {username, email, pass} = req.body;
+        const {username, email, pass, image} = req.body;
         const safePass = await hash(pass, 10)
         const user = {
-            username, email, pass: safePass
+            username, email, pass: safePass, image: image
         }
         const getAllUsers = await Users.getAll()
         
@@ -52,8 +53,9 @@ class UsersController {
     }
 
     static getAll = async (req, res) => {
-         const users = await Users.getAll()
-         users ? res.status(200).json(users) : res.status(200).send('No hay usuarios registrados.')
+        const id = req.query.id
+        const users = await Users.getAll(id)
+        users ? res.status(200).json(users) : res.status(200).send('No hay usuarios registrados.')
     }
 }
 
