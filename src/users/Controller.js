@@ -57,6 +57,22 @@ class UsersController {
         const users = await Users.getAll(id)
         users ? res.status(200).json(users) : res.status(200).send('No hay usuarios registrados.')
     }
+
+    static getUsersFollowed = async (req, res) => {
+        const id = req.query.id
+        const users = await Users.getUsersFollowed(id)
+        users ? res.status(200).json(users) : res.status(200).send('Aún no sigues a ningún usuario.')
+    }
+
+    static Follow = async (req, res) => {
+        const {user_id, follower_id} = req.body
+        const ids = {
+            user_id: user_id,
+            follower_id: follower_id
+        }
+        const user = await Users.Follow(ids)
+        user ? res.status(200).json(user) : res.status(200).send('')
+    }
 }
 
 module.exports = UsersController;

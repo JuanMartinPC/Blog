@@ -4,7 +4,7 @@ class Post {
 
     static async getAllPosts(){
         const [results, _info] = await connection.promise().query(
-            'select username, image, user_id, post_id, title, content, category, likes, upload_date from users inner join posts where id = user_id')
+            'select username, image, user_id, post_id, title, content, category, likes, upload_date from users inner join posts where id = user_id order by post_id desc')
         return results.length ? results : null;
     }
 

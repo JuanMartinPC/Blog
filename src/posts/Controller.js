@@ -119,7 +119,6 @@ class PostController {
         del ? res.status(200).json({'mensaje': 'Publicacion eliminada'}) : res.status(500).json({'mensaje': 'Algo salió mal. :c'})
     }
 
-
     static deletePaperbinItem = async (req, res) => {
         const id = req.query.id
         const del = await Post.deletePaperbinItem(id)

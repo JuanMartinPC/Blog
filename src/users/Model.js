@@ -32,6 +32,20 @@ class Users {
             return results.length ? results : null
         }
     }
+
+    static async getUsersFollowed(id){
+        console.log(id);
+        const [results, _info] = await connection.promise().query('select follower_id from followers where user_id = ?', 
+        [id])
+            return results.length ? results : null
+    }
+
+    static async Follow(ids){
+        const {user_id, follower_id} = ids
+        const [results, _info] = await connection.promise().query('insert into followers (user_id, follower_id) values (?, ?)',
+        [user_id, follower_id])
+            return results.length ? results : null
+    }
 }
 
 module.exports = Users;
